@@ -3,8 +3,17 @@
   "http://jakarta.apache.org/struts/dtds/struts-config_1_1.dtd">
 <struts-config>
 
+  <form-beans>
+    <form-bean name="noteForm" type="qword.struts.form.Note" />
+  </form-beans>
+
   <action-mappings>
     <action path="/simple-page" forward="/pages/simplePage.jsp" />
+
+    <!-- Notes Actions -->
+    <action path="/notes" name="noteForm" type="qword.struts.action.NoteAction" parameter="action">
+      <forward name="showAll" path="/pages/notes.jsp" />
+    </action>
   </action-mappings>
 
 </struts-config>
