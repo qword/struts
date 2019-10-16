@@ -9,7 +9,7 @@
 <p>Create a new note or update an existing one</p>
 <p>
 <form id="noteForm" name="noteForm" action="./notes.do?action=createOrUpdate" method="post">
-    <input type="hidden" id="id" name="id" value="$!noteForm.id">
+    <input type="hidden" id="id" name="id" value="${noteForm.id}">
     <table>
         <tbody>
         <tr>

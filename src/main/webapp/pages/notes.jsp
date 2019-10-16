@@ -17,6 +17,7 @@
         <th>Description</th>
         <th>Created</th>
         <th>Updated</th>
+        <th>&nbsp;</th>
     </tr>
     </thead>
     <tbody>
@@ -28,6 +29,10 @@
             <td>${note.description}</td>
             <td>${note.created}</td>
             <td>${note.updated}</td>
+            <td>
+                <a href="./notes.do?action=single&id=${note.id}">Update</a>
+                <a href="./notes.do?action=delete&id=${note.id}">delete</a>
+            </td>
         </tr>
     </logic:iterate>
 

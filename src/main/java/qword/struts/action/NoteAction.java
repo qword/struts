@@ -1,8 +1,10 @@
 package qword.struts.action;
 
 import static java.lang.Long.parseLong;
+import static java.util.Comparator.*;
 import static java.util.logging.Level.INFO;
 import static java.util.logging.Level.SEVERE;
+import static java.util.stream.Collectors.toList;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -37,7 +39,8 @@ public class NoteAction extends DispatchAction {
       final HttpServletRequest request, final HttpServletResponse response) {
     LOGGER.log(INFO, "Action: display all Notes");
 
-    request.setAttribute(NOTES_LIST_ATTRIBUTE, notes);
+    final List<Note> sortedNotes = notes.stream().sorted(comparing(Note::getId)).collect(toList());
+    request.setAttribute(NOTES_LIST_ATTRIBUTE, sortedNotes);
     return mapping.findForward("showAll");
   }
 
@@ -73,8 +76,18 @@ public class NoteAction extends DispatchAction {
         // Creating new note
         note.setCreated(LocalDateTime.now());
         note.setId(i++);
+      } else {
+        note.setUpdated(LocalDateTime.now());
+
+        // remove previous version
+        notes.stream()
+            .filter(n -> n.getId().equals(note.getId()))
+            .findFirst()
+            .ifPresent(existingNote -> {
+              notes.remove(existingNote);
+              note.setCreated(existingNote.getCreated());
+            });
       }
-      note.setUpdated(LocalDateTime.now());
       notes.add(note);
     } catch (ReflectiveOperationException e) {
       LOGGER.log(SEVERE, "Unable to create Note from a form", e);
@@ -82,6 +95,19 @@ public class NoteAction extends DispatchAction {
 
     request.setAttribute("id", note.getId());
     return mapping.findForward("successCreateOrUpdate");
+  }
+
+  public ActionForward delete(final ActionMapping mapping, final ActionForm form,
+      final HttpServletRequest request, final HttpServletResponse response) {
+    LOGGER.log(INFO, "Action: delete one single note");
+
+    long id = getIdFromRequest(request);
+    notes.stream()
+        .filter(n -> n.getId().equals(id))
+        .findFirst()
+        .ifPresent(notes::remove);
+
+    return mapping.findForward("successDelete");
   }
 
   private long getIdFromRequest(HttpServletRequest request) {
