@@ -4,7 +4,7 @@
 <struts-config>
 
   <form-beans>
-    <form-bean name="noteForm" type="qword.struts.form.Note" />
+    <form-bean name="noteForm" type="qword.struts.form.NoteForm" />
   </form-beans>
 
   <action-mappings>
@@ -13,7 +13,14 @@
     <!-- Notes Actions -->
     <action path="/notes" name="noteForm" type="qword.struts.action.NoteAction" parameter="action">
       <forward name="showAll" path="/pages/notes.jsp" />
+      <forward name="showSingle" path="/pages/note.jsp" />
+      <forward name="successCreateOrUpdate" redirect="true" path="/notes.do?action=all" />
+      <forward name="successDelete" redirect="true" path="/notes.do?action=all" />
     </action>
   </action-mappings>
+
+<!--  <plug-in className="org.apache.struts.validator.ValidatorPlugIn" >-->
+<!--    <set-property property="pathnames" value="/WEB-INF/validator-rules.xml, /WEB-INF/validator-notes.xml"/>-->
+<!--  </plug-in>-->
 
 </struts-config>

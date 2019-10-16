@@ -12,6 +12,7 @@
 <table>
     <thead>
     <tr>
+        <th>Id</th>
         <th>Title</th>
         <th>Description</th>
         <th>Created</th>
@@ -33,6 +34,7 @@
     </tbody>
 </table>
 </p>
+<p><a href="./notes.do?action=single">+ Create New</a></p>
 <p><a href="${pageContext.request.contextPath}">Go back</a> to the home page.</p>
 </body>
 </html>

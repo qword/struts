@@ -1,4 +1,4 @@
-package qword.struts.form;
+package qword.struts.domain;
 
 import java.time.LocalDateTime;
 import lombok.Data;
